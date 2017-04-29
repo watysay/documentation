@@ -1,6 +1,4 @@
-== Diverses infos sur Ansible
-== Chemins importants, fichiers utilisés,
-== Détails divers ...
+### Ansible : management de deploiement, configuration idempotente ###
 
 Ressources :
 command line : http://docs.ansible.com/ansible/intro_adhoc.html
@@ -12,6 +10,9 @@ best practices : http://docs.ansible.com/ansible/playbooks_best_practices.html
 deploiement CI : https://medium.com/@tedchength/basic-deployment-with-ansible-docker-jenkins-and-git-4f3b42fb2f5e
 >>> à noter https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/
 (lire au moins la solution à la fin)
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+1) installation
 
 ### Dossier important #1 ###
 /etc/ansible/

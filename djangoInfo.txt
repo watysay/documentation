@@ -2,7 +2,7 @@
 
 Django tuto : https://docs.djangoproject.com/en/1.11/intro/tutorial01/
 
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 1) installation de virtualenv
 
 installation de virtualenv pour python3. virtualenv permet de se créer
@@ -27,7 +27,7 @@ $ source bin/activate
 pour arreter faire :
 $ deactivate
 
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 2) installation de Django
 
 dans le virtualenv, lancer :
@@ -38,9 +38,8 @@ allez dans l'interpreteur Python3, faites
 (ou lancer $ python3 -m django --version)
 si pas d'erreur + une version s'affiche alors c'est ok !!
 
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 3) creation d'un site
-
 
 $ django-admin startproject mysite
 (virtual_env_site1) [21:24] ~/prog/virtual_env_site1
@@ -61,8 +60,7 @@ cd jusqu'à manage.py, puis lancer :
 $ python3 manage.py runserver
 le serveur tourne ! il fournit une adresse de connexion, checker : ça marche !
 
-
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 4) creation d'une appli
 
 MVC
@@ -78,8 +76,7 @@ Modifier le fichier app/view.py
 Modifier le fichier d'url app/urls.py pour mettre la nouvelle vue créée
 Modifier le fichier d'url site/urls.py pour include( le fichier url de l'app )
 
-
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 5) creation d'une BDD
 
 Modifier le fichier site/settings.py
@@ -91,8 +88,7 @@ Pour passer leur modele à une table dans le MDD, lancer :
 $ python3 manage.py migrate
 --> prend la liste INSTALLED_APPS, créée les tables nécessaires en BDD
 
-
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 6) creation des modeles
 
 Modeles pour l'app : app/models.py
@@ -105,8 +101,7 @@ models.ForeignKey( )
 détails sur https://docs.djangoproject.com/en/1.11/ref/models/fields/
 Ces 'fields' définissent les types de champ en BDD
 
-
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 7) activation des modeles - creation de schema pour l'app
 
 --> ajout dans site/settings.py des infos de config de l'app
@@ -132,4 +127,4 @@ remember the three-step guide to making model changes:
  - Run python manage.py makemigrations to create migrations for those changes
  - Run python manage.py migrate to apply those changes to the database.
 
- #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~

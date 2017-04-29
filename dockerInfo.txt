@@ -10,8 +10,8 @@ reference dockerfile : https://docs.docker.com/engine/reference/builder/
 Utiles :
 Dockerfile > docker build > docker run
 
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
-1) installation 
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+1) installation
 
 Suite de lancements :
 $ sudo apt-get install \
@@ -33,25 +33,29 @@ $ sudo apt-get update
 
 $ sudo apt-get install docker-ce
 
-# on vérifie que ça marche : docker va chercher une image 'hello-world' sur son repo (le docker hub) et la faire tourner pour vérifer la config.
+# on vérifie que ça marche : docker va chercher une image 'hello-world' sur
+son repo (le docker hub) et la faire tourner pour vérifer la config.
 $ sudo docker run hello-world
 
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 2) Creation d'un custom container
 
 Creation d'un dossier + sous-dossier source :
 
 $ mkdir -p applitest1/src
 --> creation d'un fichier applitest1/src/index.php contenant echo whatever
---> creation d'un fichier applitest1/Dockerfile . le Dockerfile contient les éléments qui permettront a Docker de créer son container
+--> creation d'un fichier applitest1/Dockerfile . le Dockerfile contient
+les éléments qui permettront a Docker de créer son container
 
 Contenu :
 FROM php:7.0-apache
 COPY src/ /var/www/html/
 EXPOSE 80
 
-FROM -- permet de définir une image Docker de base, trouvée sur docker hub. associé à l'image il y a des conseils de déploiements, de l'aide, ...
-COPY -- permet de copier le contenu de scr (index.php) dans l'autre dossier, en l'occurence le dossier de présentation de Apache
+FROM -- permet de définir une image Docker de base, trouvée sur docker hub.
+associé à l'image il y a des conseils de déploiements, de l'aide, ...
+COPY -- permet de copier le contenu de scr (index.php) dans l'autre dossier,
+en l'occurence le dossier de présentation de Apache
 EXPOSE -- permet d'ouvrir un port vers l'exterieur
 
 
@@ -59,10 +63,9 @@ possible :
 -- dans le repertoire contenant le Dockerfile à copier
 $ sudo docker build -q .
 output : sha256:b7gUIU56Cctr45............hjbK
-tres long. copier ça et 
+tres long. copier ça et
 $ sudo docker run -p 80:80 b7gUIU56Cctr45............hjbK
 lance effectivement un container
 tenter :
 $ id_cont=$(sudo docker build -q . | cut -d':' -f2)
 $ sudo docker run -p 80:80 $id_cont
-
