@@ -1,0 +1,135 @@
+### Django : Python web framwork ###
+
+Django tuto : https://docs.djangoproject.com/en/1.11/intro/tutorial01/
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+1) installation de virtualenv
+
+installation de virtualenv pour python3. virtualenv permet de se créer
+un/des environnements virtuels pour le développement en python.
+Les + par rapport à l'environnement 'classique' sont :
+  - la gestion des modules est précise. dans chaque env virtuel on peut
+    installer les memes modules, mais avec des versions différentes.
+    Il est possible de bosser sur le même projet, une fois avec un module version 1.0
+    pour la prod, et dans un autre env virtuel avec le module en v2.4, pour les tests/le dev
+  - pas besoin de passer par sudo !
+  - une fois que le projet est fait, il suffit de lancer pip freeze pour avoir
+  uniquement les packages necessaires dans la bonne version afin de figer les requirements.
+
+Pour ça :
+$ sudo apt-get -y install python3-pip
+$ sudo pip3 install virtualenv
+(bien lancer par sudo sinon virtualenv sera installé en 'local' sur le HOME de l'utilisateur)
+$ virtualenv ENV
+$ cd ENV
+$ source bin/activate
+# et voilà !
+pour arreter faire :
+$ deactivate
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+2) installation de Django
+
+dans le virtualenv, lancer :
+$ pip3 install Django
+allez dans l'interpreteur Python3, faites
+>>>import django
+>>>django.get_version()
+(ou lancer $ python3 -m django --version)
+si pas d'erreur + une version s'affiche alors c'est ok !!
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+3) creation d'un site
+
+
+$ django-admin startproject mysite
+(virtual_env_site1) [21:24] ~/prog/virtual_env_site1
+$ cd monsite/
+(virtual_env_site1) [21:24] ~/prog/virtual_env_site1/monsite
+$ tree
+.
+├── manage.py
+└── monsite
+    ├── __init__.py
+    ├── settings.py
+    ├── urls.py
+    └── wsgi.py
+
+1 directory, 5 files
+
+cd jusqu'à manage.py, puis lancer :
+$ python3 manage.py runserver
+le serveur tourne ! il fournit une adresse de connexion, checker : ça marche !
+
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+4) creation d'une appli
+
+MVC
+Modele : interface vers les données
+Vue : interface pour l'utilisateur
+Controlleur : passe les infos entre les 2 premiers
+
+$ python3 manage.py startapp monapp
+# polls etant le tuto Django du site
+
+Modifier le fichier app/view.py
+--> creation d'une nouvelle vue "index" ( penser index.php)
+Modifier le fichier d'url app/urls.py pour mettre la nouvelle vue créée
+Modifier le fichier d'url site/urls.py pour include( le fichier url de l'app )
+
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+5) creation d'une BDD
+
+Modifier le fichier site/settings.py
+--> modifier la partie DATABASES - ENGINE pour le choix de la base, NAME pour le nom de la BDD
+--> besoin d'ajouter USER, PASSWORD, HOST pour autre que SQLite
+Regarder la partie INSTALLED_APPS : ce sont les applis Django qui sont incluses
+
+Pour passer leur modele à une table dans le MDD, lancer :
+$ python3 manage.py migrate
+--> prend la liste INSTALLED_APPS, créée les tables nécessaires en BDD
+
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+6) creation des modeles
+
+Modeles pour l'app : app/models.py
+ajouter des classes qui héritent de models.Model
+les attributs sont définis par des types :
+models.CharField( )
+models.DateTimeField( )
+models.ForeignKey( )
+...
+détails sur https://docs.djangoproject.com/en/1.11/ref/models/fields/
+Ces 'fields' définissent les types de champ en BDD
+
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
+7) activation des modeles - creation de schema pour l'app
+
+--> ajout dans site/settings.py des infos de config de l'app
+ces infos de config sont en fait 'contenues' dans la classe située dans app/apps.py
+donc ajout dans INSTALLED_APPS de '<site>.<app>.<AppConfig>'
+
+--> déclarer des changements de modele, demander une migration sur la BDD :
+lancer :
+$ python3 manage.py makemigrations monapp
+
+-->prise en compte, préparation du nouveau modele : regarder le numéro du fichier
+voir le contenu de la MAJ de modele BDD :
+$ python3 manage.py sqlmigrate monapp 0001
+<DDL des nouvelles tables/champs/contraintes/...>
+
+lancer la mise à jour de modèle :
+$ python3 manage.py migrate
+(oui oui, comme avant au §5)
+
+RAPPEL :
+remember the three-step guide to making model changes:
+ - Change your models (in app/models.py).
+ - Run python manage.py makemigrations to create migrations for those changes
+ - Run python manage.py migrate to apply those changes to the database.
+
+ #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*
