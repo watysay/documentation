@@ -1,2 +1,3 @@
 # infos
 infos files for projects : HOWTO Docker, Ansible, Django, Git ....
+Chaque fichier décrit différents éléments : installation, ressources, creation d'arborescence, best practices, etc
