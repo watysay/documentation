@@ -71,3 +71,105 @@ modules intéressant pour les commandes en 'live' :
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 3) les playbooks
+
+le playbooks est un receuil de plays. Chaque play concerne un/des hosts et un remote_user
+Ensuite, on défini des tâches: tasks
+La structure de base est donc définie de la sorte:
+- hosts: server
+  remote_user: yourname
+  tasks:
+    - name: test de connection
+      ping:
+On lance ainsi le nouveau fichier playbook.yml:
+$ ansible-playbook -i hosts playbook.yml
+Et voilà, c'est parti !
+
+On liste ainsi une liste de tâches à accomplir. Elles seront déroulées sur tous
+les serveurs listé dans "hosts". A la suite on peut changer de host, on repart sur
+un nouveau play avec nouvel host, nouvel user et nouvelles tasks
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+4) les plays : détails
+
+- passer par sudo sur son play:
+  tasks:
+    - name: apache is started
+      service: name=apache2 status=started
+      become: yes
+
+-
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+5) les handlers
+
+Lorsqu'une tâche s'execute, il peut y avoir besoin de faire quelque chose en réaction,
+mais pas à chaque passe. Exemple: changement d'un fichier de config, qui nécessite
+un restart apache. On veut un restart seulement si le fichier change, pas à chaque passe.
+On va utiliser le systeme de handler.
+Sur notre tache on attache un notify:
+tasks:
+  - name: template config file
+    template: src=template.j2 dest=/path/to/file
+    notify:
+      - restart apache
+          ( à noter que template peut prendre les variables du playbook)
+On place les handlers sur la même indentation que les tasks:
+handlers:
+  - name: restart apache (nom dans notify = nom du handler)
+    service: name=apache2 status=restarted
+    become: yes
+
+Ou on passe par un systeme de listen:
+la task passe un notify: "message to listen"
+le handler est alors de la forme:
+- name: restart apache (nom dans notify = nom du handler)
+  service: name=apache2 status=restarted
+  listen: "message to listen"
+  become: yes
+On peut définir ainsi plusieurs handlers pour une tache sans tout lister
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+6) Les roles
+
+Une fois une liste de plays longue comme le bras, il est temps de définir des roles.
+Les roles permettent de gérer un 'type' de config.
+Par exemple si dans le playbook utilisés il y a 3 parties:
+apt update + installs diverses
+creation/modification d'un utilisateur
+clone de depot git
+
+On va couper ces taches en 3 roles: update_init, user, clone_git
+Dans le répertoire contenant le playbook et hosts, créer un dossier role.
+L'arbo au final:
+roles/
+    update_init/
+        tasks/
+            main.yml
+    user/
+        tasks/
+            main.yml
+    clone_git/
+        tasks/
+            main.yml
+
+Avec dans chaque main.yml le contenu des tasks respectives:
+- name: test
+  ping:
+- name ...
+
+Ensuite, dans le fichier principal (playbook.ymp), on passe de:
+tasks:
+  - ...
+
+  - ...
+à:
+roles:
+  - update_init
+  - user
+  - clone_git
+
+Tada!
+De la même maniere que définir des tasks pour un role, on peut définir également
+des handlers. Sous le dossier-nom du role, à coté du dossier tasks, créer le
+dossier handlers puis handlers/main.yml, fichier à remplir de la même maniere que
+tasks/main.yml
