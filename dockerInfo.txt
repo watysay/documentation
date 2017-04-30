@@ -21,18 +21,13 @@ $ sudo apt-get install \
     software-properties-common
 
 $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-
 $ sudo apt-key fingerprint 0EBFCD88
-
 $ sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    stable"
-
 $ sudo apt-get update
-
 $ sudo apt-get install docker-ce
-
 # on vérifie que ça marche : docker va chercher une image 'hello-world' sur
 son repo (le docker hub) et la faire tourner pour vérifer la config.
 $ sudo docker run hello-world
@@ -58,6 +53,33 @@ COPY -- permet de copier le contenu de scr (index.php) dans l'autre dossier,
 en l'occurence le dossier de présentation de Apache
 EXPOSE -- permet d'ouvrir un port vers l'exterieur
 
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+2) Build d'une nouvelle image
+Sur la base d'une image existante (php:7.0-apache ici), on construit
+une nouvelle image en ajoutant des éléments.
+- Build:
+  $ sudo docker build <options> <path>
+  option intéressante: -t pout tag permet de donner un nom à cette image
+  path: mettre . si Dockerfile est dans le répertoire
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+3) Run d'une image
+Lancement du container !
+- run de base:
+  $ sudo docker run <ID ou nom de l'image>
+- run avec port exposé (80 pour apache par ex):
+  $ sudo docker run -p 80:80 <ID ou nom de l'image>
+  permet de mapper port de l'hote : port du container
+  ainsi sur localhost:80, on a accès au container
+- run avec mount de dossier:
+  $ sudo docker run -v /host/path/to/src:/container/path <ID ou nom de l'image>
+  permet de partage par ex son répertoire local où sont changer les fichiers
+  avec le serveur de pres (/var/www/html pour apache). Ainsi, à chaque chgmt
+  de fichiers, pas besoin de relancer de container.
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+4)
+
 possible :
 -- dans le repertoire contenant le Dockerfile à copier
 $ sudo docker build -q .
@@ -70,6 +92,9 @@ $ id_cont=$(sudo docker build -q . | cut -d':' -f2)
 NB: -q pour quiet, doit seulement sortir l'ID => pas besoin de cut
 $ sudo docker run -p 80:80 $id_cont
 
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+Gestion des containers
+
 - Voir les container qui tournent:
   $ sudo docker ps
 - Voir les container qui ont été stoppés:
@@ -77,8 +102,13 @@ $ sudo docker run -p 80:80 $id_cont
 - Supprimer les containers arretés:
   $ sudo docker rm $(sudo docker ps --filter "status=exited" -q)
 
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+Gestion des images
+
 - voir les images installées:
   $ sudo docker images
+- chercher sur le hub des images:
+  $ sudo docker search <termeAChercher>
 - aller chercher des images
   $ sudo docker pull <imageName>
 - supprimer une image:
