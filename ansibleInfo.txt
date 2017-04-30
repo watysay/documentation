@@ -6,30 +6,68 @@ tout sur les playbooks : http://docs.ansible.com/ansible/playbooks.html
 + associé aux examples : https://github.com/ansible/ansible-examples
 infos modules : http://docs.ansible.com/ansible/list_of_all_modules.html
 best practices : http://docs.ansible.com/ansible/playbooks_best_practices.html
-
 deploiement CI : https://medium.com/@tedchength/basic-deployment-with-ansible-docker-jenkins-and-git-4f3b42fb2f5e
 >>> à noter https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/
 (lire au moins la solution à la fin)
 
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
-1) installation
-
-### Dossier important #1 ###
-/etc/ansible/
-
-contient :
+- Dossier important #1 : /etc/ansible/
+  contient :
   - Fichier de config d'Ansible : ansible.cfg
   - Fichier de config des hosts : hosts
   - dossier des roles : roles/
 
-### lancement ###
-ansible <host-pattern> [-m module_name] [-a args] [options]
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+1) installation
 
-### faire une execution du module command idempotente ###
-avec une execution - command: /..../create_stuff.sh
---> utiliser l'attribut creates ou removes
-creates : a filename or (since 2.0) glob pattern, when it already exists, this step will not be run.
-removes : a filename or (since 2.0) glob pattern, when it does not exist, this step will not be run.
-unarchive (decompression) aussi a un attribut creates.
+L'installation se fait via apt-get classique
+Elements importants: la version de python
 
---> il est possible de créer une "custom" idempotence
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+2) lancement de commandes standard
+
+Prérequis:
+- ajouts de un/plusieurs hosts cibles dans fichier repertoire/hosts
+- échange de clés SSH (ou ssh-agent) avec le/les serveurs
+Test:
+$ ansible all -m ping
+Echec: pas d'infos dans /etc/ansible/hosts
+les hosts sont renseignés dans ~/prog/ansible/premiere_appli/hosts
+on relance la commande avec -i fichier
+cmd:
+$ ansible all -m ping -i ~/prog/ansible/premiere_appli/hosts
+Echec: il trouve bien le RaspberryPi mais ne peut s'y connecter. En effet, il
+se connecte par défaut avec le même user.
+On va donc changer avec l'option -u user:
+$ ansible all -m ping -i ~/prog/ansible/premiere_appli/hosts -u pi
+Success !
+
+Le format est donc
+$ ansible host(s) -m module -a arguments options
+- pour lancer une commande:
+  $ ansible host -a "/bin/echo hello"
+- pour lancer une commande en passant sudo
+  $ ansible host -a "/bin/echo hello" -b (b pour become)
+  force ansible a demander le mot de passe: --ask-become-pass ou -K
+  Exemple:
+  $ ansible rpi -i hosts -m apt -a "update_cache=yes" -u pi
+  Echec: pas de droits "Fail to lock for exclusive operation"
+  $ ansible rpi -i hosts -m apt -a "update_cache=yes" -u pi -b
+  Succes: user 'pi' a des droits en sudo sans mdp
+modules intéressant pour les commandes en 'live' :
+- ping
+- copy. -m copy -a "src=/path/to dest=/path/file"
+- file. modifie des attibuts: -m file -a "dest=/this/file mode=755 owner=user"
+  (creation de repertoire avec state=directory, delete avec state=absent)
+- service. -m service -a "name=apache2 state=started(restarted,stopped,relaoded,running)
+- user. creat/modif/del de user. -m user -a "name=user password=xyz"
+- command. Evite de se tapper tout le chemin avec -a; ex: -m command -a "ls"
+  options intéressantes pour l'idempotence, ex:
+  -m command -a "/path/to/file.sh arg1 arg2 creates=file"
+  creates=file: file existe => pas de run
+  removes=file: file n'existe pas => pas de run
+  (penser: la commande passée créer le fichier, donc pas besoin de refaire)
+- shell. comme commande mais accepte redirection, variables, ... (creates et removes marchent)
+- script. execute le script après l'avoir copié sur le remote
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+3) les playbooks
