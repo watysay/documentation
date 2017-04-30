@@ -44,8 +44,8 @@ Creation d'un dossier + sous-dossier source :
 
 $ mkdir -p applitest1/src
 --> creation d'un fichier applitest1/src/index.php contenant echo whatever
---> creation d'un fichier applitest1/Dockerfile . le Dockerfile contient
-les éléments qui permettront a Docker de créer son container
+--> creation d'un fichier applitest1/Dockerfile
+le Dockerfile contient les éléments qui permettront à Docker de créer son container
 
 Contenu :
 FROM php:7.0-apache
@@ -58,7 +58,6 @@ COPY -- permet de copier le contenu de scr (index.php) dans l'autre dossier,
 en l'occurence le dossier de présentation de Apache
 EXPOSE -- permet d'ouvrir un port vers l'exterieur
 
-
 possible :
 -- dans le repertoire contenant le Dockerfile à copier
 $ sudo docker build -q .
@@ -68,9 +67,19 @@ $ sudo docker run -p 80:80 b7gUIU56Cctr45............hjbK
 lance effectivement un container
 tenter :
 $ id_cont=$(sudo docker build -q . | cut -d':' -f2)
+NB: -q pour quiet, doit seulement sortir l'ID => pas besoin de cut
 $ sudo docker run -p 80:80 $id_cont
 
 - Voir les container qui tournent:
   $ sudo docker ps
-- Voir les container qui ont été stoppé
+- Voir les container qui ont été stoppés:
   $ sudo docker ps --filter "status=exited"
+- Supprimer les containers arretés:
+  $ sudo docker rm $(sudo docker ps --filter "status=exited" -q)
+
+- voir les images installées:
+  $ sudo docker images
+- aller chercher des images
+  $ sudo docker pull <imageName>
+- supprimer une image:
+  $ sudo docker rmi <imageID>
