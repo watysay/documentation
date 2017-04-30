@@ -69,3 +69,8 @@ lance effectivement un container
 tenter :
 $ id_cont=$(sudo docker build -q . | cut -d':' -f2)
 $ sudo docker run -p 80:80 $id_cont
+
+- Voir les container qui tournent:
+  $ sudo docker ps
+- Voir les container qui ont été stoppé
+  $ sudo docker ps --filter "status=exited"

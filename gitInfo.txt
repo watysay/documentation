@@ -111,8 +111,7 @@ Pas forcément un GitHub, ça peut être n'importe quel dossier sur disque, part
   $ git pull origin master
   (push et pull : arg1 = le remote destinataire ('origin') master' ?)
 
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
-x) lien avec GitHub
+#~*~*~*~* lien avec GitHub ~*~*~*~*
 2 sens possible à l'initialisation : local -> GitHub ou GitHub -> local
 
 Sens 1: local vers GitHub
@@ -134,3 +133,24 @@ OU dl d'un repo d'un autre : 'fork'
 - pour uploader les fichiers modifiés (local -> GitHub) :
   $ git push origin master
   ==> 'origin' = source du clone, 'master' = branche de travail pour le push
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+10) Forks
+
+Le fork permet de travailler sur le projet que quelqu'un d'autre à créer.
+2 raisons à ça : ajouts de features, résolutions de bugs
+OU ce projet est un point de départ pour notre projet.
+Le but ici n'est pas le même. Dans le premier cas il faudra bien faire attention
+pour pouvoir à l'avenir merger avec le projet d'origine
+Le fork se fait sur GitHub ou BitBucket par exemple.
+Projet de quelqu'un -> fork -> récupérer sous notre username.
+Ensuite il faut "git clone" sur notre machine pour commencer à travailler.
+--> faire une branche pour poursuivre
+--> si besoin faire un fetch depuis l'upstream (remote sur l'origine du fork),
+merge sur le master (c'est pour ça qu'il faut brancher juste après le fork)
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+11) Hooks
+
+Possibilité d'ajouter des hooks au projet : associé des actions à des events
+(events tels que nouveau commit par exemple)
