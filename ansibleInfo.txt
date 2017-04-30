@@ -97,7 +97,23 @@ un nouveau play avec nouvel host, nouvel user et nouvelles tasks
       service: name=apache2 status=started
       become: yes
 
--
+- passer une liste de variables:
+tasks:
+  - name install générale
+    apt: name={{ item }} update_cache=yes state=latest
+    with_items:
+      - vim
+      - git
+      - htop
+      ...
+
+- modifier une ligne dans un fichier (sed !!)
+  - name: Remplacer ma valeur
+    lineinfile:
+      dest: /path/to/file
+      regexp: 'string\sto\sfind'
+      line: 'whatever {{ var_une }}'
+  (cette syntaxe est equivalente à dest=/.. regexp=... sur une seule ligne)
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 5) les handlers
@@ -173,3 +189,23 @@ De la même maniere que définir des tasks pour un role, on peut définir égale
 des handlers. Sous le dossier-nom du role, à coté du dossier tasks, créer le
 dossier handlers puis handlers/main.yml, fichier à remplir de la même maniere que
 tasks/main.yml
+Idem pour les templates.
+
+Include
+Si dans les vars du playbook, on a une liste de vars ()
+on peut créer un fichier.yml à côté du main.yml avec les tasks à effectuer
+sur chaque item de cette liste, et on passe la liste depuis le main. Exemple
+playbook.yml:
+- hosts: serveurs
+  remote_user: root
+  vars:
+    domains:
+      - domaine1
+      - domaine2
+tasks/main.yml
+- name: tasks sur chaque domaine
+  include: fichier.yml
+  with_items: domains
+tasks/fichier.yml
+- name: task1
+  truc: ...{{ item }}...quelquechose
