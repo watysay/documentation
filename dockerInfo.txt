@@ -52,9 +52,12 @@ associé à l'image il y a des conseils de déploiements, de l'aide, ...
 COPY -- permet de copier le contenu de scr (index.php) dans l'autre dossier,
 en l'occurence le dossier de présentation de Apache
 EXPOSE -- permet d'ouvrir un port vers l'exterieur
+CMD -- permet de lancer une commande a éxécuter une fois que le container est
+déployé. Ex: pour apache/php c'est "apache2-foreground". A placé en dernier.
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 2) Build d'une nouvelle image
+
 Sur la base d'une image existante (php:7.0-apache ici), on construit
 une nouvelle image en ajoutant des éléments.
 - Build:
@@ -64,6 +67,7 @@ une nouvelle image en ajoutant des éléments.
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 3) Run d'une image
+
 Lancement du container !
 - run de base:
   $ sudo docker run <ID ou nom de l'image>
@@ -101,6 +105,9 @@ Gestion des containers
   $ sudo docker ps --filter "status=exited"
 - Supprimer les containers arretés:
   $ sudo docker rm $(sudo docker ps --filter "status=exited" -q)
+- Run a command in a running container
+  $ sudo docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 Gestion des images

@@ -2,4 +2,16 @@
 
 Ressources
 
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+1) Installation
+
+Installation possible par 1) téléchargement direct (jenkins.war)
+executable par java (test) ou comme dans mon cas,
+2) en passant par un container docker
+- Téléchargement de l'image:
+  $ sudo docker pull jenkins:latest
+- lancer l'image:
+  $ sudo docker run -p 8080:8080 -v /tmp/jenkins_home:/var/jenkins_home jenkins:latest
+  accès à jenkins par le port 8080, jenkins accède aux slaves par le 50000
+  /var/jenkins_home contient toutes les données de jenkins, donc monté avec
+  -v permet de conserver ces données

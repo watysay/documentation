@@ -11,7 +11,7 @@ deploiement CI : https://medium.com/@tedchength/basic-deployment-with-ansible-do
 >>> à noter https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/
 (lire au moins la solution à la fin)
 
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 1) installation
 
 ### Dossier important #1 ###
@@ -21,8 +21,6 @@ contient :
   - Fichier de config d'Ansible : ansible.cfg
   - Fichier de config des hosts : hosts
   - dossier des roles : roles/
-
-
 
 ### lancement ###
 ansible <host-pattern> [-m module_name] [-a args] [options]
