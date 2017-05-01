@@ -75,6 +75,11 @@ Lancement du container !
   $ sudo docker run -p 80:80 <ID ou nom de l'image>
   permet de mapper port de l'hote : port du container
   ainsi sur localhost:80, on a accès au container
+- run avec "exposition sur réseau" - option -P + mode detach -d
+  $ sudo docker run -P -d <ID ou nom de l'image>
+  ensuite dans docker ps on peut voir le port qui est mappé sur le reseau, au
+  port interne. Permet par exemple de lancer plusieurs containers apache, qui
+  ecoute tous le port 80 dans le container, mais sur le port défini depuis le réseau
 - run avec mount de dossier:
   $ sudo docker run -v /host/path/to/src:/container/path <ID ou nom de l'image>
   permet de partage par ex son répertoire local où sont changer les fichiers

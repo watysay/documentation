@@ -1,9 +1,9 @@
 ### Jenkins : ###
 
-Ressources
+Ressources:
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
-1) Installation
+1) Installation - premier lancement
 
 Installation possible par 1) téléchargement direct (jenkins.war)
 executable par java (test) ou comme dans mon cas,
@@ -14,4 +14,42 @@ executable par java (test) ou comme dans mon cas,
   $ sudo docker run -p 8080:8080 -v /tmp/jenkins_home:/var/jenkins_home jenkins:latest
   accès à jenkins par le port 8080, jenkins accède aux slaves par le 50000
   /var/jenkins_home contient toutes les données de jenkins, donc monté avec
-  -v permet de conserver ces données
+  -v permet de conserver ces données (montage du volume source dans dest)
+  !! Attention: avec ce montage de volume, le container a accès, potentiellement
+  en ecriture/execution sur le repertoire de l'host !!
+
+La config de jenkins se fait dans le container sur /var/jenkins_home, sur le
+host dans /tmp/jenkins_home/.jenkins
+Ce dossier contient tous les plugins, la config, ...
+A chaque lancement du container jenkins, utiliser ce montage de volume
+
+Pour récupérer le mdp initial demandé :
+  $ sudo docker exec <id image> bash -c "cat /var/jenkins_home...."
+
+Connexion à jenkins sur le localhost:8080
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+2) Premier tuto
+
+Start: https://jenkins.io/doc/pipeline/tour/hello-world/
+Le jenkinsfile de test est sur: https://github.com/watysay/testPython
+
+Creation d'un nouveau pipeline:
+Menu principal > New item > nom+Multibranch Pipeline
+Add source: adresse GitHub contenant le jenkins file (copier depuis le tuto)
+Le jenkinsfile utilise la directive " agent { docker 'python:3.5.1'}"
+Lors de l'execution du test, il voudra donc lancer un container basé sur cette image
+Donc échec, pas de docker dans le container "jenkins"
+
+Je passe a "agent any" + commit sur GitHub
+la directive du stage 'build' est sh 'python --version'
+Le test réussi ! (cf console output dans le menu à gauche: 'python 2.7.9')
+C'est la version de python sur le container jenkins.
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+x)
+
+A tester :
+- automatiser le lancement du container jenkins
+- passer la socket docker + changer jenkinsfile pour directive agent docker
+- paramétrer un hook pour relancement au commit/push
