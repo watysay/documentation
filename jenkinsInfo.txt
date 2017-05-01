@@ -17,6 +17,9 @@ executable par java (test) ou comme dans mon cas,
   -v permet de conserver ces données (montage du volume source dans dest)
   !! Attention: avec ce montage de volume, le container a accès, potentiellement
   en ecriture/execution sur le repertoire de l'host !!
+- full:
+$ sudo docker run -d -p 8080:8080 -p 50000:50000 -v /tmp/jenkins_home:/var/jenkins_home jenkins:latest
+NB: donner un nom pour retrouver
 
 La config de jenkins se fait dans le container sur /var/jenkins_home, sur le
 host dans /tmp/jenkins_home/.jenkins
@@ -44,12 +47,14 @@ Donc échec, pas de docker dans le container "jenkins"
 Je passe a "agent any" + commit sur GitHub
 la directive du stage 'build' est sh 'python --version'
 Le test réussi ! (cf console output dans le menu à gauche: 'python 2.7.9')
-C'est la version de python sur le container jenkins.
+C'est la version de python sur le container jenkins. "agent any" a executer
+sur le container.
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 x)
 
 A tester :
 - automatiser le lancement du container jenkins
+NB: donner un nom pour retrouver
 - passer la socket docker + changer jenkinsfile pour directive agent docker
 - paramétrer un hook pour relancement au commit/push
