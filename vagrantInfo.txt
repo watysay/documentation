@@ -4,12 +4,23 @@ Ressources :
 Installation : https://www.vagrantup.com/intro/getting-started/install.html +
                 https://www.vagrantup.com/downloads.html
 Getting started : https://www.vagrantup.com/intro/getting-started/index.html
-reference vagrantfile
+Repo de VMs : https://app.vagrantup.com/boxes/search
+reference vagrantfile :
 
 Utiles :
 
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 1) installation
-Sous Linux téléchargement du pck sur le site + installation à suivre.
-Apparement VM
+Sous Linux : téléchargement du pck sur le site + installation à suivre.
+Apparement Vagrant utilise VirtualBox pour ce projet ?? TODO installer VirtualBox
+
+Sous Windows :
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+2) Creation premier dossier/Vagrantfile
+
+$ mkdir vagrant_getting_started
+$ cd vagrant_getting_started
+$ vagrant init
+==> créé un premier Vagrantfile contenant la base
