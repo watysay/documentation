@@ -21,6 +21,7 @@ $ sudo apt-get -y install python3-pip
 $ sudo pip3 install virtualenv
 (bien lancer par sudo sinon virtualenv sera installé en 'local' sur le HOME de l'utilisateur)
 $ virtualenv ENV
+(dossier ENV non existant)
 $ cd ENV
 $ source bin/activate
 # et voilà !
@@ -112,7 +113,7 @@ donc ajout dans INSTALLED_APPS de '<site>.<app>.<AppConfig>'
 lancer :
 $ python3 manage.py makemigrations monapp
 
--->prise en compte, préparation du nouveau modele : regarder le numéro du fichier
+--> prise en compte, préparation du nouveau modele : regarder le numéro du fichier
 voir le contenu de la MAJ de modele BDD :
 $ python3 manage.py sqlmigrate monapp 0001
 <DDL des nouvelles tables/champs/contraintes/...>
@@ -126,5 +127,43 @@ remember the three-step guide to making model changes:
  - Change your models (in app/models.py).
  - Run python manage.py makemigrations to create migrations for those changes
  - Run python manage.py migrate to apply those changes to the database.
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+tree:
+.
+├── db.sqlite3
+├── manage.py
+├── monapp
+│   ├── admin.py
+│   ├── apps.py
+│   ├── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-35.pyc
+│   │   ├── urls.cpython-35.pyc
+│   │   └── views.cpython-35.pyc
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+└── monsite
+    ├── __init__.py
+    ├── __pycache__
+    │   ├── __init__.cpython-35.pyc
+    │   ├── settings.cpython-35.pyc
+    │   ├── urls.cpython-35.pyc
+    │   └── wsgi.cpython-35.pyc
+    ├── settings.py
+    ├── urls.py
+    └── wsgi.py
+
+Résumé: au départ, le projet Django commence par un site (monsite). La gestion
+de la connexion à la BDD se fait dans settings.py, la gestion des urls se fait
+dans site/urls.py (qui inclut les fichiers urls des applis).
+Ensuite, dans une app, nous avons le modele (models.py) ainsi que
+les vues (views.py). La gestion du modèle par manage.py permet de créer les
+éléments nécessaires dans la BDD. Les adresses des vues sont gérées dans urls.py
+de l'appli.
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~

@@ -60,7 +60,7 @@ modules intéressant pour les commandes en 'live' :
 - copy. -m copy -a "src=/path/to dest=/path/file"
 - file. modifie des attibuts: -m file -a "dest=/this/file mode=755 owner=user"
   (creation de repertoire avec state=directory, delete avec state=absent)
-- service. -m service -a "name=apache2 state=started(restarted,stopped,relaoded,running)
+- service. -m service -a "name=apache2 state=started(restarted,stopped,reloaded,running)
 - user. creat/modif/del de user. -m user -a "name=user password=xyz"
 - command. Evite de se tapper tout le chemin avec -a; ex: -m command -a "ls"
   options intéressantes pour l'idempotence, ex:
@@ -175,7 +175,7 @@ Avec dans chaque main.yml le contenu des tasks respectives:
   ping:
 - name ...
 
-Ensuite, dans le fichier principal (playbook.ymp), on passe de:
+Ensuite, dans le fichier principal (playbook.yml), on passe de:
 tasks:
   - ...
 

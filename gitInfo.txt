@@ -25,6 +25,11 @@ creation du nouveau fichier pour le projet
 $ git status => le nouveau fichier n'est pas 'traqué'
 $ git add monfichier.xyz => on l'ajoute à la liste
 
+retirer un fichier (commits séparés, etc)
+$ git reset monfichier
+pour annuler un "git add ." (ajout des tous les fichiers):
+$ git reset
+
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 4) commitage
 
