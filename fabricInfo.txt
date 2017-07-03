@@ -1,0 +1,47 @@
+### Fabric : wrapper sur SSH, déploiement et remote execution ###
+
+Fabric Tuto : http://docs.fabfile.org/en/1.13/tutorial.html
+
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+1) Installation
+
+fabric n'est pas compatible avec python3, il faut donc passer par pip et non
+par pip3
+$ sudo pip install fabric
+Il faut ensuite créer un fichier fabfile.py .
+Définir une fonction bateau dans ce fichier:
+def hello():
+    print("Hello World !")
+puis lancer en ligne de commande:
+$ fab hello
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+2) Premier script de base
+
+Mise à jour du RPi
+Definitions de deux fonctions:
+def update():
+    sudo('apt-get update')
+
+def upgrade():
+    sudo('apt-get upgrade')
+
+execute bien la bonne commande (upgrade demande même en direct la confirmation)
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+x) Reference pour recherche
+Dans les fabfiles exemple sont cités run, sudo ... comme venant de fabric.api
+En fait ils viennent d'un peu plus loin :
+
+from fabric.context_managers import (cd, hide, settings, show, path, prefix,
+    lcd, quiet, warn_only, remote_tunnel, shell_env)
+from fabric.decorators import (hosts, roles, runs_once, with_settings, task,
+        serial, parallel)
+from fabric.operations import (require, prompt, put, get, run, sudo, local,
+    reboot, open_shell)
+from fabric.state import env, output
+from fabric.utils import abort, warn, puts, fastprint
+from fabric.tasks import execute
+
+utils, tasks, etc sont à retrouver dans le menu du http://docs.fabfile.org
