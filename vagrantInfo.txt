@@ -1,0 +1,15 @@
+### Vagrant : gestion de VMs (build + management) ###
+
+Ressources :
+Installation : https://www.vagrantup.com/intro/getting-started/install.html +
+                https://www.vagrantup.com/downloads.html
+Getting started : https://www.vagrantup.com/intro/getting-started/index.html
+reference vagrantfile
+
+Utiles :
+
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+1) installation
+Sous Linux téléchargement du pck sur le site + installation à suivre.
+Apparement VM
