@@ -12,15 +12,54 @@ Utiles :
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 1) installation
-Sous Linux : téléchargement du pck sur le site + installation à suivre.
-Apparement Vagrant utilise VirtualBox pour ce projet ?? TODO installer VirtualBox
+Sous Linux téléchargement du pck sur le site + installation à suivre.
+Le provider doit être installé pour pouvoir fonctionner (apparemment
+l'installation se fait si il n'est pas trouvé)
 
-Sous Windows :
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
-2) Creation premier dossier/Vagrantfile
+2) 1er lancement Vagrant
 
-$ mkdir vagrant_getting_started
-$ cd vagrant_getting_started
-$ vagrant init
-==> créé un premier Vagrantfile contenant la base
+aller chercher une "image" de VM
+$ vagrant box add centos/7
+==> demande de choisir le provider
+(hyperv, libvirt, virtualbox, vmware_desktop)
+(choix 4)
+
+une fois le répertoire d'essai créé (F:\dev\creation_vms\vagrant_getting_started)
+lancer:
+$ vagrant init centos/7
+(créé le vagrantfile adapté)
+puis faire:
+$ vagrant up
+pour lancer la VM
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+3) travail
+se connecter : 
+$ vagrant ssh
+(sortir via ctrl+D ou exit)
+
+By default, Vagrant shares your project directory (remember, that is the one 
+with the Vagrantfile) to the /vagrant directory in your guest machine.
+
+Note that when you vagrant ssh into your machine, you're in /home/vagrant. 
+/home/vagrant is a different directory from the synced /vagrant directory.
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+4) arrêter 
+
+arrêter le fonctionnement de la VM :
+$ vagrant destroy
+
+Virer "l'image " de la box :
+$ vagrant box remove
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+5) "Provisionning" = 
+https://www.vagrantup.com/intro/getting-started/provisioning.html
+
+
+*** vagrant ne semble pas fonctionner avec VMware Workstation 12 Player
+vmware n'as pas fonctionné (vgrant up stuck)
+mais fonctionne avec virtualbox ***
