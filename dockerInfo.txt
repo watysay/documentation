@@ -32,8 +32,7 @@ $ sudo apt-get install docker-ce
 son repo (le docker hub) et la faire tourner pour vérifer la config.
 $ sudo docker run hello-world
 
-#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
-2) Creation d'un custom container
+Creation d'un custom container
 
 Creation d'un dossier + sous-dossier source :
 
