@@ -1,0 +1,184 @@
+Creation de VMs sous Windows -
+
+DL + installation de "VMware Workstation 12 Player"
+DL de Vagrant (TODO tester)
+DL de l'iso centOS7 Minimal
+
+Au lancement de VMware Workstation
+le menu demande une image ISO pour pouvoir lancer une VMs
+=> Telechargement de l'iso centos 7
+
+Une fois Workstation lancé, il faut choisir l'iso centOS7
+puis lancer la VM : execution normale, comme si on avait mis un DVD dans un 
+serveur.
+
+1) MAJ des packages
+---------------------------
+$ sudo yum update
+$ sudo yum upgrade
+
+2) install des VMware Tools
+---------------------------
+$ sudo yum install open-vm-tools
+apparement besoin d'installer les vmware-tools
+infos : http://www.ehowstuff.com/how-to-install-vmware-tools-on-centos-6-3/
+Player > Manage > VMware Tools installation
+$ sudo mount /dev/cdrom /mnt
+
+$ cd /mnt
+$ cp VMwareTools-2.0.0-122956.tar.gz /tmp
+$ cd /tmp
+$ sudo umount /mnt
+$ tar xzvf VMwareTools-2.0.0-122956.tar.gz
+$ cd vmware-tools-distrib
+$ ./vmware-install.pl
+
+--) installation d'Ansible
+---------------------------
+Ansible est dans les repos officiel, cependant il faut ajouter ce repo avant
+de pouvoir l'installer
+$ sudo yum install -y epel-release 
+$ sudo yum install -y ansible
+
+lancement de playbooks
+$ ansible-playbook -i path/to/hostsfile /path/to/playbook.yml
+choisir le host lors de l'appel:
+dans le playbook commencer par
+- hosts: "{{ host }}" (avec les quotes)
+
+puis à l'appel 
+$ ansible-playbook -i path/to/hostsfile /path/to/playbook.yml --extra-vars "host=webserver"
+
+--) installation de Jenkins
+--------------------------- 
+infos sur : https://pkg.jenkins.io/redhat-stable/
+https://wiki.jenkins.io/display/JENKINS/Installing+Jenkins+on+Red+Hat+distributions
+
+ajout du repo
+$ sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+ajout de la cle
+$ sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+install d'un java runtime environnement
+verif : java -version
+(inexistant)
+$ sudo yum install -y java-1.8.0-openjdk
+
+install de jenkins
+$ sudo yum install -y jenkins
+installation de jenkins 2.60
+b877c3324d76421a8310e3f4db96d871
+use
+$ sudo service jenkins start/stop/restart/status
+
+Pb d'accès 
+- config en NAT
+- reglage du firewall: 
+    $ firewall-cmd --zone=public --add-port=8080/tcp --permanent
+    $ firewall-cmd --zone=public --add-service=http --permanent
+    $ firewall-cmd --reload
+- choper l'@ ip:
+    $ ip a (ifconfig est deprecated)
+    regarder l'adresse inet du préiphérique ens33 (c'est ethernet)
+- entrer cette adresse + port 8080 dans le navigateur de l'host
+
+
+Notes :
+- The default JENKINS_HOME directory will be in /var/lib/jenkins
++ d'infos sur https://wiki.jenkins.io/display/JENKINS/Administering+Jenkins
+- Jenkins will be launched as a daemon on startup. 
+See /etc/init.d/jenkins for more details.
+- The 'jenkins' user is created to run this service. If you change this 
+to a different user via the config file, you must change 
+the owner of /var/log/jenkins, /var/lib/jenkins, and /var/cache/jenkins.
+- Log file will be placed in /var/log/jenkins/jenkins.log. 
+Check this file if you are troubleshooting Jenkins.
+- /etc/sysconfig/jenkins will capture configuration parameters 
+for the launch.
+- By default, Jenkins listen on port 8080. Access this port 
+with your browser to start configuration.  Note that 
+the built-in firewall may have to be opened to access 
+this port from other computers. (See
+http://www.cyberciti.biz/faq/disable-linux-firewall-under-centos-rhel-fedora/ 
+for instructions how to disable the firewall permanently)
+- A Jenkins RPM repository is added in /etc/yum.repos.d/jenkins.repo
+
+j'ai ajouté mon user au groupe jenkins pour pouvoir voir les dossiers
+$ sudo usermod -a -G jenkins seb
+
+shared folders: 
+Les shared folders sont dans /mnt/hgfs
+
+Pb sur l'authentification
+Credentials !
+
+setup pour pouvoir lancer les scripts:
+il est nécessaire d'avoir la clé publique du user 
+qui lance les scripts sur l'hôte cible. Ce user par défaut est "jenkins"
+Il faut donc soit
+- créer cette clé, copier cette clé sur l'hôte cible
+- soit changer le user par défaut, pour un user qu'on contrôle déjà
+j'ai pris l'option n°2
+1)
+changer JENKINS_USER dans /etc/sysconfig/jenkins (j'ai mis user "seb")
+2)
+changer le user a qui appartient les répertoires nécessaires à jenkins :
+chown -R seb /var/lib/jenkins
+chown -R seb /var/log/jenkins
+chown -R seb /var/cache/jenkins
+3) redemarrer le service
+service jenkins restart
+
+et voilà : on peut voir le nouvel user en allant sur
+http://JENKINS_URL/systemInfo
+regarder user.name
+Vu que la clé publique du user est présente dans 
+
+***) installations supplémentaires, nécessaires
+wget
+perl
+yum install perl gcc make kernel-headers kernel-devel -y
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+x) Network
+
+impossible d'updater le systeme via yum :
+PYCURL ERROR 6 - "couldn't resolv host 'mirrorlist.centos.org' "
+Error: cannot find a valid baseurl for repo : base/7/x86_64
+==> erreur à quel endroit ? nécessite une connexion
+ "bridge" ?
+next : configure networking
+source d'erreur possible :
+1) type de connexion de la VM : bridge ? NAT ? autre ?
+2) l'option de networking non sélectionnée à l'installation
+
+1) -
+
+2) lors de l'installation (étape résumé de l'installation)
+l'option "Réseau et nom d'hote" n'avait pas été regardé :
+il faut activé ethernet ! ( ens33 ??)
+ok done
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+x) Notes
+
+changer le pwd root :
+$ sudo passwd
+=> entrer 2 fois le nouveau passwd
+$ su -
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+x) Ajout d'une deuxieme VM, pour tenter une install de webserver sur cette VM
+
+Lancement : installation comme pour la premiere VM
+Update.
+
+Tests de pings a effectuer - ifconfig est considéré comme 
+IP VM-Jenkins+Ansible : 192.168.254.128
+IP VM-webapp : 192.168.254.129
+
+le ping est ok (dans les 2 sens).
+
+
+
