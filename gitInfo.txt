@@ -90,11 +90,13 @@ vous voulez garder, il faudra créer une branche (cf plus bas)
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 8) le stash
 Le stash (remisage) permet d'enregistrer les modifs courantes sans commiter.
-Si le travail n'est pas fini (donc que le code total est instable), impossible de commiter.
+Si le travail n'est pas fini (donc que le code total est instable),
+impossible de commiter.
 Mais s'il faut passer à autre chose:
 $ git stash
-Les fichiers reviennent dans l'état du commit précédent, la "différence" est enregistrée
-dans le 'stash'. On peut travailler sur autre chose et on commit.
+Les fichiers reviennent dans l'état du commit précédent,
+la "différence" est enregistrée dans le 'stash'.
+On peut alors travailler sur autre chose et on commit.
 Une fois de retour sur notre travail initial, il faut récupérer le 'stash'.
 Pour "sous-merger" le nvo commit + le stash :
 $ git stash apply
@@ -102,13 +104,16 @@ $ git stash apply
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 9) remote : dépôt centralisé
 
-Pas forcément un GitHub, ça peut être n'importe quel dossier sur disque, partagé, ...
+Pas forcément un GitHub, ça peut être n'importe quel dossier :
+sur disque, dossier partagé, ...
 - init de dépôt vide:
   $ cd <folder>
   $ git init --bare
-  (créer un répertoire sans .git, mais qui contient tous les fichiers : ce n'est pas un répertoire de travail)
+  (créer un répertoire sans .git, mais qui contient tous les fichiers :
+  ce n'est pas un répertoire de travail)
 - Dans le rep de travail:
-  $ git remote add <nom, mettre origin> <adresse : ssh//server/path, //rep partagé, rep local,...>
+  $ git remote add <nom, mettre origin> <adresse : ssh//server/path,
+  //rep partagé, rep local,...>
   $ git remote -v (voir les remotes)
 - Remonter les fichiers dans le remote depuis le rep de travail (master):
   $ git push origin master
@@ -120,10 +125,12 @@ Pas forcément un GitHub, ça peut être n'importe quel dossier sur disque, part
 2 sens possible à l'initialisation : local -> GitHub ou GitHub -> local
 
 Sens 1: local vers GitHub
-GitHub est utilisé comme un remote 'normal' (ne pas oublier la gestion de l'authentification)
-infos sur https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
+GitHub est utilisé comme un remote 'normal' (ne pas oublier
+la gestion de l'authentification)
+infos sur
+https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
 mais grosso modo :
-- Creer un repo SANS readme etc puis copier l'url du repo <url_repo>
+- Creer un repo SANS readme etc (sur Github) puis copier l'url du repo
 - Dans le repertoire de travail (si vide : init + copie + add + commit):
   $ git remote add origin <url_repo>
   $ git push origin master

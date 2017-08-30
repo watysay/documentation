@@ -9,7 +9,7 @@ le menu demande une image ISO pour pouvoir lancer une VMs
 => Telechargement de l'iso centos 7
 
 Une fois Workstation lancé, il faut choisir l'iso centOS7
-puis lancer la VM : execution normale, comme si on avait mis un DVD dans un 
+puis lancer la VM : execution normale, comme si on avait mis un DVD dans un
 serveur.
 
 1) MAJ des packages
@@ -37,7 +37,7 @@ $ ./vmware-install.pl
 ---------------------------
 Ansible est dans les repos officiel, cependant il faut ajouter ce repo avant
 de pouvoir l'installer
-$ sudo yum install -y epel-release 
+$ sudo yum install -y epel-release
 $ sudo yum install -y ansible
 
 lancement de playbooks
@@ -46,11 +46,12 @@ choisir le host lors de l'appel:
 dans le playbook commencer par
 - hosts: "{{ host }}" (avec les quotes)
 
-puis à l'appel 
-$ ansible-playbook -i path/to/hostsfile /path/to/playbook.yml --extra-vars "host=webserver"
+puis à l'appel
+$ ansible-playbook -i path/to/hostsfile /path/to/playbook.yml \
+  --extra-vars "host=webserver"
 
 --) installation de Jenkins
---------------------------- 
+---------------------------
 infos sur : https://pkg.jenkins.io/redhat-stable/
 https://wiki.jenkins.io/display/JENKINS/Installing+Jenkins+on+Red+Hat+distributions
 
@@ -72,9 +73,9 @@ b877c3324d76421a8310e3f4db96d871
 use
 $ sudo service jenkins start/stop/restart/status
 
-Pb d'accès 
+Pb d'accès
 - config en NAT
-- reglage du firewall: 
+- reglage du firewall (CENTOS 7 - config RedHat): 
     $ firewall-cmd --zone=public --add-port=8080/tcp --permanent
     $ firewall-cmd --zone=public --add-service=http --permanent
     $ firewall-cmd --reload
@@ -87,34 +88,34 @@ Pb d'accès
 Notes :
 - The default JENKINS_HOME directory will be in /var/lib/jenkins
 + d'infos sur https://wiki.jenkins.io/display/JENKINS/Administering+Jenkins
-- Jenkins will be launched as a daemon on startup. 
+- Jenkins will be launched as a daemon on startup.
 See /etc/init.d/jenkins for more details.
-- The 'jenkins' user is created to run this service. If you change this 
-to a different user via the config file, you must change 
+- The 'jenkins' user is created to run this service. If you change this
+to a different user via the config file, you must change
 the owner of /var/log/jenkins, /var/lib/jenkins, and /var/cache/jenkins.
-- Log file will be placed in /var/log/jenkins/jenkins.log. 
+- Log file will be placed in /var/log/jenkins/jenkins.log.
 Check this file if you are troubleshooting Jenkins.
-- /etc/sysconfig/jenkins will capture configuration parameters 
+- /etc/sysconfig/jenkins will capture configuration parameters
 for the launch.
-- By default, Jenkins listen on port 8080. Access this port 
-with your browser to start configuration.  Note that 
-the built-in firewall may have to be opened to access 
+- By default, Jenkins listen on port 8080. Access this port
+with your browser to start configuration.  Note that
+the built-in firewall may have to be opened to access
 this port from other computers. (See
-http://www.cyberciti.biz/faq/disable-linux-firewall-under-centos-rhel-fedora/ 
+http://www.cyberciti.biz/faq/disable-linux-firewall-under-centos-rhel-fedora/
 for instructions how to disable the firewall permanently)
 - A Jenkins RPM repository is added in /etc/yum.repos.d/jenkins.repo
 
 j'ai ajouté mon user au groupe jenkins pour pouvoir voir les dossiers
 $ sudo usermod -a -G jenkins seb
 
-shared folders: 
+shared folders:
 Les shared folders sont dans /mnt/hgfs
 
 Pb sur l'authentification
 Credentials !
 
 setup pour pouvoir lancer les scripts:
-il est nécessaire d'avoir la clé publique du user 
+il est nécessaire d'avoir la clé publique du user
 qui lance les scripts sur l'hôte cible. Ce user par défaut est "jenkins"
 Il faut donc soit
 - créer cette clé, copier cette clé sur l'hôte cible
@@ -133,7 +134,7 @@ service jenkins restart
 et voilà : on peut voir le nouvel user en allant sur
 http://JENKINS_URL/systemInfo
 regarder user.name
-Vu que la clé publique du user est présente dans 
+Vu que la clé publique du user est présente dans
 
 ***) installations supplémentaires, nécessaires
 wget
@@ -174,11 +175,8 @@ x) Ajout d'une deuxieme VM, pour tenter une install de webserver sur cette VM
 Lancement : installation comme pour la premiere VM
 Update.
 
-Tests de pings a effectuer - ifconfig est considéré comme 
+Tests de pings a effectuer - ifconfig est considéré comme
 IP VM-Jenkins+Ansible : 192.168.254.128
 IP VM-webapp : 192.168.254.129
 
 le ping est ok (dans les 2 sens).
-
-
-

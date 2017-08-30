@@ -41,7 +41,8 @@ Creation d'un nouveau pipeline:
 Menu principal > New item > nom+Multibranch Pipeline
 Add source: adresse GitHub contenant le jenkins file (copier depuis le tuto)
 Le jenkinsfile utilise la directive " agent { docker 'python:3.5.1'}"
-Lors de l'execution du test, il voudra donc lancer un container basé sur cette image
+Lors de l'execution du test, il voudra donc lancer un container
+basé sur cette image
 Donc échec, pas de docker dans le container "jenkins"
 
 Je passe a "agent any" + commit sur GitHub

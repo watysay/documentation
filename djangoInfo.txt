@@ -1,6 +1,7 @@
 ### Django : Python web framwork ###
 
-Django tuto : https://docs.djangoproject.com/en/1.11/intro/tutorial01/
+Django tuto :
+https://docs.djangoproject.com/en/1.11/intro/tutorial01/
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 1) installation de virtualenv
@@ -10,18 +11,22 @@ un/des environnements virtuels pour le développement en python.
 Les + par rapport à l'environnement 'classique' sont :
   - la gestion des modules est précise. dans chaque env virtuel on peut
     installer les memes modules, mais avec des versions différentes.
-    Il est possible de bosser sur le même projet, une fois avec un module version 1.0
-    pour la prod, et dans un autre env virtuel avec le module en v2.4, pour les tests/le dev
+    Il est possible de bosser sur le même projet,
+    une fois avec un module version 1.0 pour la prod, et dans
+    un autre env virtuel avec le module en v2.4, pour les tests/le dev
   - pas besoin de passer par sudo !
   - une fois que le projet est fait, il suffit de lancer pip freeze pour avoir
-  uniquement les packages necessaires dans la bonne version afin de figer les requirements.
+  uniquement les packages necessaires dans la bonne version afin de
+  figer les requirements.
 
 Pour ça :
 $ sudo apt-get -y install python3-pip
 $ sudo pip3 install virtualenv
-(bien lancer par sudo sinon virtualenv sera installé en 'local' sur le HOME de l'utilisateur)
-$ virtualenv ENV
+(bien lancer par sudo sinon virtualenv sera installé en 'local'
+sur le HOME de l'utilisateur)
+
 (dossier ENV non existant)
+$ virtualenv ENV
 $ cd ENV
 $ source bin/activate
 # et voilà !
@@ -81,7 +86,8 @@ Modifier le fichier d'url site/urls.py pour include( le fichier url de l'app )
 5) creation d'une BDD
 
 Modifier le fichier site/settings.py
---> modifier la partie DATABASES - ENGINE pour le choix de la base, NAME pour le nom de la BDD
+--> modifier la partie DATABASES - ENGINE pour le choix de la base,
+                                   NAME pour le nom de la BDD
 --> besoin d'ajouter USER, PASSWORD, HOST pour autre que SQLite
 Regarder la partie INSTALLED_APPS : ce sont les applis Django qui sont incluses
 
@@ -106,14 +112,16 @@ Ces 'fields' définissent les types de champ en BDD
 7) activation des modeles - creation de schema pour l'app
 
 --> ajout dans site/settings.py des infos de config de l'app
-ces infos de config sont en fait 'contenues' dans la classe située dans app/apps.py
-donc ajout dans INSTALLED_APPS de '<site>.<app>.<AppConfig>'
+ces infos de config sont en fait 'contenues' dans la classe
+située dans app/apps.py, donc ajout dans INSTALLED_APPS de
+ '<site>.<app>.<AppConfig>'
 
 --> déclarer des changements de modele, demander une migration sur la BDD :
 lancer :
 $ python3 manage.py makemigrations monapp
 
---> prise en compte, préparation du nouveau modele : regarder le numéro du fichier
+--> prise en compte, préparation du nouveau modele :
+regarder le numéro du fichier
 voir le contenu de la MAJ de modele BDD :
 $ python3 manage.py sqlmigrate monapp 0001
 <DDL des nouvelles tables/champs/contraintes/...>

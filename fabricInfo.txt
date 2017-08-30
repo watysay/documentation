@@ -1,6 +1,7 @@
 ### Fabric : wrapper sur SSH, déploiement et remote execution ###
 
-Fabric Tuto : http://docs.fabfile.org/en/1.13/tutorial.html
+Fabric Tuto :
+http://docs.fabfile.org/en/1.13/tutorial.html
 
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
