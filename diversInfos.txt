@@ -1,0 +1,32 @@
+# divers
+
+
+** ajouts de droits sudo **
+------------------------
+Sur ordi portable, modification au niveau du sudo :
+besoin : ne pas demander le mdp pour les apt-get (update et upgrade)
+comment faire :
+ajouter un fichier dans /etc/sudoers.d/
+qui contient la ligne
+user host = (root) NOPASSWD: /path/to/command
+
+soit dans notre cas
+seb ASUSX = (root) NOPASSWD: /usr/bin/apt-get
+
+la modif doit être fait via visudo :
+sudo visudo -f /etc/sudoers.d/<nom de fichier>
+
+visudo prévient que ASUSX n'est pas connu (c'est pourtant bien le nom d'host ...)
+une fois cela effectué on peut lancer
+sudo -l
+pour voir si cela est effectif :
+"
+Entrées par défaut pour seb sur ASUSX :
+    ...
+
+L'utilisateur seb peut utiliser les commandes suivantes sur ASUSX :
+    (ALL : ALL) ALL
+    (root) NOPASSWD: /usr/bin/apt-get
+"
+Ca marche !
+lancer la commande ajoutée pour voir si ça marche ...
