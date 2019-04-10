@@ -6,50 +6,53 @@ Ressources:
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 1) créer un dossier
-
-$ mkdir ~/git_repo
-$ cd ~/git_repo
-$ git init
+```
+mkdir ~/git_repo
+cd ~/git_repo
+git init
+```
 ==> git init créer un dossier .git dans le répertoire qui contient
     tous les éléments nécessaires pour Git
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 2) config (si besoin)
-$ git config --global name value
+```git config --global name value```
 (name trouvable dans git config --help, rubrique variables)
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 3) ajout d'un nouveau fichier
 
 creation du nouveau fichier pour le projet
-$ git status => le nouveau fichier n'est pas 'traqué'
-$ git add monfichier.xyz => on l'ajoute à la liste
-
+```
+git status => le nouveau fichier n'est pas 'traqué'
+git add monfichier.xyz => on l'ajoute à la liste
+```
 retirer un fichier (commits séparés, etc)
-$ git reset monfichier
+```git reset monfichier```
 pour annuler un "git add ." (ajout des tous les fichiers):
-$ git reset
+```git reset```
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 4) commitage
 
-$ git commit : ouvre un fichier, il faut ajouter un message
-$ git commit -m message "message de commit" => les fichiers sont enregistrés
+```git commit``` : ouvre un fichier, il faut ajouter un message
+```git commit -m message "message de commit"``` => les fichiers sont enregistrés
 NB : ajouter tous les fichiers (add) + les commiter:
-$ git commit -a (et -m "message" si besoin)
+```git commit -a -m "message"```
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 5) voir les modifs
-
-$ git log --oneline ==> modif sur le projet
-$ git log -p monfichier ==> modif sur monfichier
+```
+git log --oneline ==> modif sur le projet
+git log -p monfichier ==> modif sur monfichier
+```
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 6) revenir dans le temps
 
 à partir de git log, on a des infos sur les commits +ID du commit
 - on peut retourner à l'état précédent grâce à la commande :
-  $ git checkout <ID du commit>
+  ```git checkout <ID du commit>```
   => le repo se trouve dans l'état au moment du commit ID
 
 Si une fois revenu en arriere, vous faites
@@ -57,18 +60,18 @@ des modifs autres que sur le master, et que
 vous voulez garder, il faudra créer une branche (cf plus bas)
 
 - revenir au principal :
-  $ git checkout master
+  ```git checkout master```
 
 - Récupérer un fichier d'un ancien commit dans le master :
-  $ git checkout master
-  $ git checkout <ID du commit> monfichier (puis le commit)
+  ```git checkout master```
+  ```git checkout <ID du commit> monfichier``` (puis le commit)
 
 - Autre moyen de 'remonter' dans le temps :
-  $ git revert <ID du commit> => permet d'annuler un commit: on annule seulement
+  ```git revert <ID du commit>``` => permet d'annuler un commit: on annule seulement
   l'effet d'un commit, ce n'est pas un retour total en arrière
 
-  $ git reset HEAD fichier ==> enleve fichier de l'index (annule git add)
-  $ git reset <ID du commit> ==> défait tous les commits existants
+  ```git reset HEAD fichier``` ==> enleve fichier de l'index (annule git add)
+  ```git reset <ID du commit>``` ==> défait tous les commits existants
   entre master et le commit en question !!!
   opts: garder les fichiers en l'état + 'stager' (git add): --soft
   opts: garder les fichiers en l'état + ne pas 'stager' (pas git add): --mixed
@@ -78,13 +81,19 @@ vous voulez garder, il faudra créer une branche (cf plus bas)
 7) branching
 
 - créer une branche + y accéder :
-  $ git branche nomdebrance
-  $ git checkout nomdebranche
+  ```
+  git branche nomdebrance
+  git checkout nomdebranche
+  ```
+  ou
+  ```git checkout -b nomdebranche```
   ajout de fichiers + commit => sur la branche
 
 - merger :
-  $ git checkout master
-  $ git merge nomdebranche
+  ```
+  git checkout master
+  git merge nomdebranche
+  ```
   (si nécessaire : git branch -d nomdebranche => delete la branche)
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
@@ -93,13 +102,13 @@ Le stash (remisage) permet d'enregistrer les modifs courantes sans commiter.
 Si le travail n'est pas fini (donc que le code total est instable),
 impossible de commiter.
 Mais s'il faut passer à autre chose:
-$ git stash
+```git stash```
 Les fichiers reviennent dans l'état du commit précédent,
 la "différence" est enregistrée dans le 'stash'.
 On peut alors travailler sur autre chose et on commit.
 Une fois de retour sur notre travail initial, il faut récupérer le 'stash'.
 Pour "sous-merger" le nvo commit + le stash :
-$ git stash apply
+```git stash apply```
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 9) remote : dépôt centralisé
@@ -107,18 +116,22 @@ $ git stash apply
 Pas forcément un GitHub, ça peut être n'importe quel dossier :
 sur disque, dossier partagé, ...
 - init de dépôt vide:
-  $ cd <folder>
-  $ git init --bare
+  ```
+  cd <folder>
+  git init --bare
+  ```
   (créer un répertoire sans .git, mais qui contient tous les fichiers :
   ce n'est pas un répertoire de travail)
 - Dans le rep de travail:
-  $ git remote add <nom, mettre origin> <adresse : ssh//server/path,
-  //rep partagé, rep local,...>
-  $ git remote -v (voir les remotes)
+  ```
+  git remote add <nom, mettre origin> <adresse : ssh//server/path, //rep partagé, rep local,...>
+  git remote -v 
+  ```
+  (voir les remotes )
 - Remonter les fichiers dans le remote depuis le rep de travail (master):
-  $ git push origin master
+  ```git push origin master```
 - Récupérer depuis la remote les fichiers de travail :
-  $ git pull origin master
+  ```git pull origin master```
   (push et pull : arg1 = le remote destinataire ('origin') master' ?)
 
 #~*~*~*~* lien avec GitHub ~*~*~*~*
@@ -132,18 +145,20 @@ https://help.github.com/articles/adding-an-existing-project-to-github-using-the-
 mais grosso modo :
 - Creer un repo SANS readme etc (sur Github) puis copier l'url du repo
 - Dans le repertoire de travail (si vide : init + copie + add + commit):
-  $ git remote add origin <url_repo>
-  $ git push origin master
+  ```
+  git remote add origin <url_repo>
+  git push origin master
+  ```
 
 Sens 2: GitHub vers local
 creation d'un repo sur GitHub avec Readme, licence et .gitignore
 OU dl d'un repo d'un autre : 'fork'
 - cloner le repo GitHub :
-  $ git clone <URL du repo>
+  ```git clone <URL du repo>```
   NB: git clone ajout automatiquement l'url comme remote
   puis travail normal sur repo local (commits ...)
 - pour uploader les fichiers modifiés (local -> GitHub) :
-  $ git push origin master
+  ```git push origin master```
   ==> 'origin' = source du clone, 'master' = branche de travail pour le push
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
