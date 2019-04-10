@@ -98,6 +98,7 @@ vous voulez garder, il faudra créer une branche (cf plus bas)
 
 #~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
 8) le stash
+
 Le stash (remisage) permet d'enregistrer les modifs courantes sans commiter.
 Si le travail n'est pas fini (donc que le code total est instable),
 impossible de commiter.
@@ -181,3 +182,32 @@ merge sur le master (c'est pour ça qu'il faut brancher juste après le fork)
 
 Possibilité d'ajouter des hooks au projet : associé des actions à des events
 (events tels que nouveau commit par exemple)
+
+#~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+12) Submodules
+
+Git a introduit la notion de sous-modules afin de réduire le travail sur les 
+dépendances d'un projet. On ajoute une référence à un autre dépôt qui sera 
+importé dans le projet courant et qui sera utilisé comme source de fichiers.
+
+```git submodule add <repo> <dir_for_submodule>```
+
+git fait un clone dans <dir_for_submodule> et ajoute un fichier .gitsubmodule
+ce fichier contient les références au sous-module.
+On peut dès lors travaillé comme si ces fichiers faisaient parti de notre projet.
+
+NB : pour que notre projet pointe à un élement particuler du sous-module (commit,
+branche, etc) il faut aller dans ce sous-module, changer l'état (checkout vers la branche,
+le commit) puis comiter dans le projet principal:
+```
+cd submodule_directory
+git checkout v1.0
+cd ..
+git add submodule_directory
+git commit -m "moved submodule to v1.0"
+git push
+```
+
+NB: pour récupérer tout lors d'un clone il faut :
+- soit utiliser ```git clone --recursive```
+- soit apres le clone utiliser ```git submodule update --init --recursive```
