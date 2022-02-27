@@ -1,0 +1,63 @@
+# App Android
+---
+
+##Installer Android Studio sur Linux
+---
+
+Guide : https://developer.android.com/studio/install#linux
+- telecharger le tar.gz
+- installer les prerequis
+  sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
+- dezipper/detarrer
+  exctraction dans Téléchargements
+  déplacement dans /opt
+  sudo mv android-studio /opt/
+- executer studio.sh
+  /opt/android-studio/bin/studio.sh
+
+- créer une application pour pouvoir lancer android-studio
+  /opt/android-studio/bin/studio.sh
+  /opt/android-studio/bin/studio.png
+  
+  1) sudo cp /usr/share/applications/skypeforlinux.desktop /usr/share/applications/android-studio.desktop
+  2) modification fichier :
+[Desktop Entry]
+Encoding=UTF-8
+Name=Android Studio
+Exec=/opt/android-studio/bin/studio.sh
+Icon=/opt/android-studio/bin/studio.png
+Type=Application
+Categories=Development;
+
+appli direct sur tel
+installation d'adb sur le poste pour gérer les connexion usb a android
+https://developer.android.com/studio/run/device#connect
+
+on va suivre le cours OCR
+https://openclassrooms.com/fr/courses/3499366-developpez-une-application-pour-android/3567701-concevez-votre-premiere-interface
+on sera perdu moins vite :)
+
+on peut gérer des commandes CLI
+https://developer.android.com/studio/command-line
+/home/seb/Android/Sdk/tools/bin/sdkmanager
+/home/seb/Android/Sdk/tools/bin/sdkmanager --list
+me ramene plein de choses
+
+message quand j'essaie d'installer Nougat system image :
+Packages to install: 
+- Google APIs Intel x86 Atom System Image (system-images;android-25;google_apis;x86)
+
+Preparing "Install Google APIs Intel x86 Atom System Image (revision: 17)".
+Downloading https://dl.google.com/android/repository/sys-img/google_apis/x86-25_r17.zip
+
+cf https://gist.github.com/mrk-han/66ac1a724456cadf1c93f4218c6060ae par exemple
+
+
+
+
+# java home
+java est installé en mm temps que Android Studio
+pour le trouver, aller Android Studio > file > project structure > SDK location > ligne JDK location
+ds le terminal, faire "export JAVA_HOME=<cette valeur>"
+
+
